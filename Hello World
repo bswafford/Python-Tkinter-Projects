@@ -1,0 +1,5 @@
+from tkinter import messagebox
+def main():
+    messagebox.showinfo(message="Hello World")
+if __name__=="__main__":
+    main()
