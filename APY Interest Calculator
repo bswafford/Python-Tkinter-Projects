@@ -1,0 +1,80 @@
+from tkinter import *
+from tkinter import messagebox
+window=Tk()
+window.title("APY Accrued Value Calculator")
+
+def Button1Function():
+    exit()
+
+def Button2Function(Entry1,Entry2,Entry3):
+    while True:
+#Check for common expected errors due to user carelessness.
+        if Entry1==0 or Entry2==0 or Entry3==0:
+            messagebox.showerror("Error Detected","All fields must have a number value greater than zero")
+            return None
+        if Entry3==int(Entry3):
+            Entry3=int(Entry3)
+        else:
+            messagebox.showerror("Error Detected","Number of years must be a whole number.")
+            return None
+#Change the percentage value from a float into an integer, if it can be done without changing the value.
+        try:
+            if Entry2==int(Entry2):
+                Entry2=int(Entry2)
+        except: pass
+#Multiply the initial amount by the percentage rate with return, and calculate for each subsequent year that it is rolled over.
+        AccruingAmount=Entry1
+        for i in range(0,Entry3):
+            AccruingAmount=AccruingAmount*(1+(Entry2/100))
+        Entry1='${:,.2f}'.format(Entry1)
+        Entry2='{}%'.format(Entry2)
+        AccruingAmount='${:,.2f}'.format(AccruingAmount)
+        message="                                                                                                                                                              "
+        CalculationMessage=Message(window,width=345,text=message)
+        message="If %s is deposited and left for %s years at an annual interest rate of %s, your final return will be: %s."\
+        %(Entry1,str(Entry3),Entry2,AccruingAmount)
+        CalculationMessage=Message(window,width=345,text=message)
+        CalculationMessage.grid(row=12,column=0,sticky=(N),pady=(5,0))
+        break
+#Starting Amount:    
+Label1=Label(window,text="Starting amount:")
+Label1.grid(column=0,sticky=(W),padx=(5,0))
+
+StrVar1=StringVar()
+
+Entry1=Entry(window,textvariable=StrVar1)
+Entry1.grid(column=0,sticky=(W),padx=(5,0))
+
+#Apy percentage rate:
+Label2=Label(window,text="APY percentage rate:")
+Label2.grid(row=3,column=0,sticky=(W),padx=(5,0),pady=(10,0))
+
+StrVar2=StringVar()
+Entry2=Entry(window, textvariable=StrVar2)
+Entry2.grid(column=0,sticky=(W),padx=(5,0))
+
+#Number of loan years:
+Label3=Label(window,text="Number of years that starting amount will be accruing interest:")
+Label3.grid(row=6,column=0,columnspan=2,sticky=(W),padx=(5,0),pady=(10,0))
+
+StrVar3=StringVar()
+Entry3=Entry(window, textvariable=StrVar3)
+Entry3.grid(row=7,column=0,sticky=(W),padx=(5,0))
+
+#Calculation results:
+BlankRow3=Label(window,text="Calculation results:",font=("bold"))
+BlankRow3.grid(row=8,column=0,pady=(10,0))
+
+CalculationBox=Canvas(window,borderwidth=2,width=350,height=25)
+CalculationBox.grid(row=12,column=0)
+
+#Buttons:
+Button1=Button(window,text="Close",width=12,command=Button1Function)
+Button1.grid(row=13,column=0,sticky=(W),padx=(5,0))
+
+try:
+    Button2=Button(window,text="Calculate",width=12,command=lambda: Button2Function(float(Entry1.get()),float(Entry2.get()),float(Entry3.get())))
+    Button2.grid(row=13,column=0,sticky=(E),padx=(0,5))
+except: messagebox.showerror("Error Detected","Numbers must be entered into all fields.")
+
+window.mainloop()
