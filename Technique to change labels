@@ -1,0 +1,34 @@
+#Technique to change labels. 
+
+#The text will change after you select the first entry field and then unfocus it by
+#selecting the next field
+
+#Necessary import to use tkinter:
+from tkinter import *
+
+#Building the window:
+window=Tk()
+
+#The title on the bar of the window:
+window.title("Technique to change labels")
+
+#A function that will be used to change the text of the label:
+def change():
+    Label1.config(text="Changed!")
+
+#Label to be changed:
+Label1=Label(window,text="This text will change")
+Label1.grid(row=0,column=0)
+
+#When focus is taken off of this entry field, it will run the function to
+#change the text in the label:
+entry1 = Entry(window, validate="focusout", validatecommand=change)
+entry1.grid(row=1,column=0)
+
+#This second entry field simply gives us something else to focus on, and
+#take focus off of the first entry field.
+entry2 = Entry(window)
+entry2.grid(row=2,column=0,pady=10)
+
+#The end of the program:
+window.mainloop()
